@@ -136,7 +136,9 @@ async function openFavourites() {
   if (ids.length > 0) {
     const herbs = await Promise.all(
       ids.map((id) =>
-        fetchHerb(id).catch(() => ({ id, name: id, latin: "", use: "Data unavailable." }))
+        fetchHerb(id)
+          .then((herb) => ({ ...herb, id }))
+          .catch(() => ({ id, name: id, latin: "", use: "Data unavailable." }))
       )
     )
     favList.replaceChildren(...herbs.map((h) => favItem(h, { onRemove })))
