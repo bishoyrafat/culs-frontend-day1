@@ -19,7 +19,12 @@ export async function fetchHerb(id) {
 
 export function getFavourites() {
   try {
-    return JSON.parse(localStorage.getItem("favourites") || "[]")
+    const stored = JSON.parse(localStorage.getItem("favourites") || "[]")
+    // Filter out any null / undefined values that may have been stored by
+    // a previous bug, and re-save immediately so the storage stays clean.
+    const clean = Array.isArray(stored) ? stored.filter((id) => typeof id === "string" && id) : []
+    if (clean.length !== stored.length) saveFavourites(clean)
+    return clean
   } catch {
     return []
   }
@@ -38,6 +43,7 @@ export function isFavourite(id) {
 }
 
 export function toggleFavourite(id) {
+  if (typeof id !== "string" || !id) return false
   const favs = getFavourites()
   const index = favs.indexOf(id)
   if (index === -1) {
