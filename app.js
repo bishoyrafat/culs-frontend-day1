@@ -47,11 +47,13 @@ function filterCards(term) {
   const query = term.trim().toLowerCase()
   const cards = list.querySelectorAll(".card")
   let visible = 0
+
   cards.forEach((c) => {
     const match = !query || c.textContent.toLowerCase().includes(query)
     c.hidden = !match
     if (match) visible++
   })
+
   noResults.hidden = visible > 0
 }
 
@@ -69,7 +71,6 @@ async function showHerbs() {
     const herbs = await fetchHerbList()
     list.replaceChildren(...herbs.map((h) => card(h, { starred: isFavourite(h.id), onStar })))
     count.textContent = `${herbs.length} herbs grow here.`
-    searchInput.addEventListener("input", () => filterCards(searchInput.value))
   } catch (error) {
     count.textContent = problem(error, "The list of herbs is missing.")
   }
@@ -145,6 +146,8 @@ async function openFavourites() {
 }
 
 // --- Event wiring ---
+
+searchInput.addEventListener("input", () => filterCards(searchInput.value))
 
 favBtn.addEventListener("click", openFavourites)
 favClose.addEventListener("click", () => favDialog.close())
