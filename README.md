@@ -10,6 +10,8 @@ A single-page web application that lets you browse, read about, search and favou
 
 Built for the **Frontend Development** course (Days 1–3) at CULS Prague.
 
+**Live site:** https://bishoyrafat.github.io/culs-frontend-day1/
+
 ---
 
 ## What you need
